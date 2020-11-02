@@ -3,7 +3,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 
-const books = require('../router/books.js');
 const auth = require('../router/auth/auth-router.js');
 
 
@@ -25,8 +24,6 @@ server.get('/', (req, res) => {
     res.send("It's alive!");
   });
 
-
-server.use('/books', books);
 server.use('/auth', auth);
 
 
