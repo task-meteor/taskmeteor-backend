@@ -1,8 +1,8 @@
 module.exports = (req, res, next) => {
     const {body} = req;
 
-    if(!body.name || !body.password){
-        res.status(400).json({message: "Please provide a name and password"})
+    if(!body.email || !body.password){
+        res.status(400).json({message: "Please provide a email and password"})
     }
     else {
         next()
