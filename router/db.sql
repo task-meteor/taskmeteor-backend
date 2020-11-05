@@ -1,9 +1,9 @@
 CREATE TABLE "users" (
-	"id" serial NOT NULL,
+	"id" uuid DEFAULT uuid_generate_v4 (),
 	"name" varchar(64),
 	"email" varchar(64) NOT NULL UNIQUE,
 	"password" varchar(255) NOT NULL,
-	"info" TEXT(255),
+	"info" TEXT,
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE

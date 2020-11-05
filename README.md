@@ -6,4 +6,4 @@ https://youtu.be/i4GgZFR1B8k
 
 ## db schema is here
 
-https://app.dbdesigner.net/designer/schema/369010
+https://dbdesigner.page.link/QNAqi5SAeZx3oTtWA

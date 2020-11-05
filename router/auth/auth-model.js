@@ -8,9 +8,11 @@ module.exports = {
 
 
 function createUser(user) {
-  const queryString = `INSERT INTO users (name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}')`
-
-  return pool.query(queryString)
+  if (user.info != null && user.info != undefined) {
+    return pool.query(`INSERT INTO users (name, email, password, info) VALUES ('${user.name}', '${user.email}', '${user.password}', '${user.info}')`)
+  } else {
+    return pool.query(`INSERT INTO users (name, email, password, info) VALUES ('${user.name}', '${user.email}', '${user.password}', null)`)
+  }
 }
 
 function find() {
