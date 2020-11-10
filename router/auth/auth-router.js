@@ -7,6 +7,7 @@ const secrets = require('./secrets.js');
 const validateAccountData = require('./validateAccountData.js');
 const authMiddleware = require('./authenticate-middleware.js');
 
+
 function generateToken(user) {
   const payload = {
     username: user.name,
