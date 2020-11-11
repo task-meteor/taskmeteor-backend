@@ -31,7 +31,15 @@ router.post('/register', validateAccountData, authMiddleware.passCheck, (req, re
       res.status(201).json({ message: 'User added!' });
     })
     .catch (err => {
-      res.status(500).json({ message: 'Failed to add new user', err });
+      if (err.code === "23505") {
+        res.status(500).json({ 
+          message: 'User already exists!', 
+          detail: err.detail
+        });
+      } else {
+        res.status(500).json({ message: 'Failed to add new user', err });
+      }
+
     });
 });
 
