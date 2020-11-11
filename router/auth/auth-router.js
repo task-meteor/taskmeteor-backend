@@ -21,7 +21,7 @@ function generateToken(user) {
   return jwt.sign(payload, secrets.jwtSecret, options);
 }
 
-router.post('/register', validateAccountData, (req, res) => {
+router.post('/register', validateAccountData, authMiddleware.passCheck, (req, res) => {
     const userData = req.body;
     const hash = bcrypt.hashSync(userData.password, 10);
     userData.password = hash;
@@ -40,7 +40,7 @@ router.post('/login', validateAccountData, (req, res) => {
 
   model.findBy('email', email)
     .then(user => {
-      console.log(user)
+      // console.log(user)
       if (user.rowCount > 0 && bcrypt.compareSync(password, user.rows[0].password)) {
         const token = generateToken(user);
         res.status(200).json({
@@ -59,7 +59,7 @@ router.post('/login', validateAccountData, (req, res) => {
     });
 });
 
-router.get('/users', authMiddleware, (req, res) => {
+router.get('/users', authMiddleware.tokenCheck, (req, res) => {
 
   model.find()
     .then(users => {
