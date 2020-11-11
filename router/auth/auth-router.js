@@ -44,7 +44,10 @@ router.post('/login', validateAccountData, (req, res) => {
       if (user && bcrypt.compareSync(password, user.rows[0].password)) {
         const token = generateToken(user);
         res.status(200).json({
-          message: `Welcome ${user.rows[0].name}!`,
+          message: `Welcome to the Meteor BE, ${user.rows[0].name}!`,
+          id: user.rows[0].id,
+          name: user.rows[0].name,
+          email: user.rows[0].email,
           token,
         });
       } else {
