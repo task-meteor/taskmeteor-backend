@@ -3,7 +3,8 @@ const { pool } = require('../../config.js')
 module.exports = {
   createUser,
   find,
-  findBy
+  findBy,
+  deleteById
 };
 
 
@@ -21,4 +22,10 @@ function find() {
 
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function deleteById(id) {
+  if (id) {
+    return pool.query(`DELETE FROM users WHERE id = '${id}' RETURNING id, name, email`);
+  }
 }

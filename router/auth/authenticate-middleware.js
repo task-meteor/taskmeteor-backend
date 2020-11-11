@@ -41,16 +41,29 @@ passCheck = (req, res, next) => {
     }
   }
 
-  if (check() === true) {
-    next()
-  }
-  else {
-    res.status(401).json({ 
-      message: 'Password verification problems',  
-      errors: errors,  
-    });
-  }
-};
+    if (check() === true) {
+      next()
+    }
+    else {
+      res.status(401).json({ 
+        message: 'Password verification problems',  
+        errors: errors,  
+      });
+    }
+  };
+
+  removeCheck = (req, res, next) => {
+    const {body} = req;
+
+      if(!body.email && !body.id){
+          res.status(400).json({message: "Please provide id or email for user removal!"})
+      }
+      else {
+          next()
+      }
+  };
+
 
 exports.tokenCheck = tokenCheck
 exports.passCheck = passCheck
+exports.removeCheck = removeCheck
