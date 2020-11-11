@@ -40,8 +40,8 @@ router.post('/login', validateAccountData, (req, res) => {
 
   model.findBy('email', email)
     .then(user => {
-      // console.log(user)
-      if (user && bcrypt.compareSync(password, user.rows[0].password)) {
+      console.log(user)
+      if (user.rowCount > 0 && bcrypt.compareSync(password, user.rows[0].password)) {
         const token = generateToken(user);
         res.status(200).json({
           message: `Welcome to the Meteor BE, ${user.rows[0].name}!`,
