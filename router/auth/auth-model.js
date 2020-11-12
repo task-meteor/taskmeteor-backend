@@ -59,7 +59,7 @@ function updateUser(user, updates) {
   if (user.id && data != '') {
     return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email, info`);
   } else {
-    return 'Nothing to do'
+    return pool.query(`SELECT id, name FROM users WHERE id = '${user.id}'`);
   }
 }
 

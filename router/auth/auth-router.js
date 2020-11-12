@@ -115,9 +115,20 @@ router.put('/update', (req, res) => {
           // res.status(200).json(user.rows);
           model.updateUser(user.rows[0], updates)
             .then(upd => {
-              res.status(200).json(upd);
+              if (upd.command === "SELECT") {
+                res.status(400).json({ 
+                  message: 'User have no new data for update', 
+                  user: upd.rows[0]
+                });
+              } else {
+                res.status(200).json({ 
+                  message: 'User data updated!',
+                  data: upd.rows[0]
+                });
+              }
             })
             .catch(error => {
+              console.log('pew')
               res.status(500).json({ message: 'Cannot update user info', error} );
             });
         } else {
