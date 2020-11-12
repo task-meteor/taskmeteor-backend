@@ -4,6 +4,7 @@ module.exports = {
   createUser,
   find,
   findBy,
+  fullFindBy,
   updateUser,
   updatePass,
   deleteById,
@@ -25,6 +26,10 @@ function find() {
 
 function findBy(parameter, filter) {
   return pool.query(`SELECT id, name, email, info FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function fullFindBy(parameter, filter) {
+  return pool.query(`SELECT * FROM users WHERE ${parameter} = '${filter}'`);
 }
 
 function deleteById(id) {
