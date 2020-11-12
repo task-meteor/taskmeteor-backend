@@ -4,6 +4,7 @@ module.exports = {
   createUser,
   find,
   findBy,
+  updateUser,
   deleteById,
   deleteByEmail
 };
@@ -31,9 +32,23 @@ function deleteById(id) {
   }
 }
 
-function updateUser(id) {
-  if (id) {
-    return pool.query(`DELETE FROM users WHERE id = '${id}' RETURNING id, name, email`);
+function updateUser(user, updates) {
+  let data = ''
+
+  if (user.name != updates.name) {
+    data = data + `name = '${updates.name}'`
+  }
+  if (user.email != updates.email) {
+    data = data + `, email = '${updates.email}'`
+  }
+  if (user.info != updates.info) {
+    data = data + `, info = '${updates.info}'`
+  }
+
+  console.log(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`)
+
+  if (user.id) {
+    return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`);
   }
 }
 

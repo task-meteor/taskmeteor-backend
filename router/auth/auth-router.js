@@ -109,11 +109,17 @@ router.put('/update', (req, res) => {
   if (updates.id) {
     model.findBy('id', updates.id)
       .then(user => {
-        console.log(user.rows.length)
 
         if (user.rows.length > 0) {
           console.log('here')
-          res.status(200).json(user.rows);
+          // res.status(200).json(user.rows);
+          model.updateUser(user.rows[0], updates)
+            .then(upd => {
+              res.status(200).json(upd);
+            })
+            .catch(error => {
+              res.status(500).json({ message: 'Cannot update user info', error} );
+            });
         } else {
           res.status(401).json({ message: 'User with given id doesnt exist' });
         }
