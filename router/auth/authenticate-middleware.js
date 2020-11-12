@@ -56,7 +56,7 @@ passCheck = (req, res, next) => {
     const {body} = req;
 
       if(!body.email && !body.id){
-          res.status(400).json({message: "Please provide id or email for user removal!"})
+          res.status(400).json({message: "Please provide id or email for operations with user data!"})
       }
       else {
           next()

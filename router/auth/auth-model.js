@@ -31,6 +31,12 @@ function deleteById(id) {
   }
 }
 
+function updateUser(id) {
+  if (id) {
+    return pool.query(`DELETE FROM users WHERE id = '${id}' RETURNING id, name, email`);
+  }
+}
+
 function deleteByEmail(email) {
   if (email) {
     return pool.query(`DELETE FROM users WHERE email = '${email}' RETURNING id, name, email`);

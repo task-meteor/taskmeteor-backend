@@ -102,6 +102,30 @@ router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
 
 });
 
+router.put('/update', (req, res) => {
+  const updates = req.body;
+  // console.log(updates)
+
+  if (updates.id) {
+    model.findBy('id', updates.id)
+      .then(user => {
+        console.log(user.rows.length)
+
+        if (user.rows.length > 0) {
+          console.log('here')
+          res.status(200).json(user.rows);
+        } else {
+          res.status(401).json({ message: 'User with given id doesnt exist' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ message: 'Cannot update user info', error});
+      });
+  } else {
+      res.status(400).json({ message: 'Provide user id for operations with data', error} );
+  }
+});
+
 router.get('/users', authMiddleware.tokenCheck, (req, res) => {
 
   model.find()
