@@ -151,6 +151,15 @@ router.put('/update', (req, res) => {
   }
 });
 
+router.put('/updatepass', authMiddleware.tokenCheck, (req, res) => {
+  const {id, oldpass, password} = req.body;
+  
+  if (oldpass === password) {
+    res.status(400).json({ message: 'Create a different password!'} );
+  }
+
+});
+
 router.get('/users', authMiddleware.tokenCheck, (req, res) => {
 
   model.find()
