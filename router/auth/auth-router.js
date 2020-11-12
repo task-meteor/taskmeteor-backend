@@ -50,7 +50,6 @@ router.post('/login', validateAccountData, (req, res) => {
     .then(user => {
       if (user.rowCount > 0 && bcrypt.compareSync(password, user.rows[0].password)) {
         const token = generateToken(user);
-        console.log('pew',token)
 
         res.status(200).json({
           message: `Welcome to the Meteor BE, ${user.rows[0].name}!`,
@@ -152,45 +151,52 @@ router.put('/update', (req, res) => {
   }
 });
 
-// router.put('/updatepass', authMiddleware.tokenCheck, authMiddleware.passCheck, (req, res) => {
-//   const {id, oldpass, password} = req.body;
+router.put('/updatepass', authMiddleware.tokenCheck, authMiddleware.passCheck, (req, res) => {
+  const {id, oldpass, password} = req.body;
   
-//   if (oldpass === password) {
-//     res.status(400).json({ message: 'Create a different password!'} );
-//   }
-  
-//   model.findBy('id', id)
-//   .then(user => {
+  if (oldpass != password) {
+    model.fullFindBy('id', id)
+    .then(user => {
+      console.log('1', oldpass, user.rows[0].password)
+      if (user.rowCount > 0 && bcrypt.compareSync(oldpass, user.rows[0].password)) {
+        
+        // const token = generateToken(user);
+        let userData = user.rows[0]
+        delete userData.id;
+        userData.password = password;
 
-//     if (user.rowCount > 0 && bcrypt.compareSync(password, user.oldpass[0].password)) {
-      
-//       const token = generateToken(user);
-//       let userData = user.rows[0];
-//       delete userData.id;
-//       userData.password = password;
-  
-//       const hash = bcrypt.hashSync(userData.password, 10);
-//       userData.password = hash;
-//       console.log(userData)
-//       // console.log(id)
-  
-//       model.updatePass(id, userData.password)
-//         .then(user => {
-//           res.status(200).json(user);
-//         })
-//         .catch(error => {
-//           res.status(500).json({ message: 'Cannot update user password', error});
-//         });
-//     } 
-//     else {
-//       res.status(401).json({ message: 'Access denied' });
-//     }
+        const hash = bcrypt.hashSync(userData.password, 10);
+        userData.password = hash;
+        console.log(userData)
+        // // console.log(id)
 
-//   })
-//   .catch(error => {
-//     res.status(500).json({ message: 'Cannot update user password', error});
-//   });
-// });
+
+        model.updatePass(id, userData.password)
+          .then(user => {
+            console.log('HERE!!!!!!!!!')
+            res.status(200).json(user);
+          })
+          .catch(error => {
+            console.log('HERE')
+            res.status(500).json({ message: 'Cannot update user password', error});
+          });
+        } 
+        else {
+          res.status(401).json({ message: 'Access denied' });
+        }
+
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot update user password', error});
+    });
+  } else {
+    res.status(400).json({ message: 'Create a different password!'} );
+  }
+  
+  
+
+  
+});
 
 router.get('/users', authMiddleware.tokenCheck, (req, res) => {
 
