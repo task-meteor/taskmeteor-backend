@@ -157,27 +157,19 @@ router.put('/updatepass', authMiddleware.tokenCheck, authMiddleware.passCheck, (
   if (oldpass != password) {
     model.fullFindBy('id', id)
     .then(user => {
-      console.log('1', oldpass, user.rows[0].password)
       if (user.rowCount > 0 && bcrypt.compareSync(oldpass, user.rows[0].password)) {
-        
-        // const token = generateToken(user);
         let userData = user.rows[0]
         delete userData.id;
         userData.password = password;
 
         const hash = bcrypt.hashSync(userData.password, 10);
         userData.password = hash;
-        console.log(userData)
-        // // console.log(id)
-
 
         model.updatePass(id, userData.password)
           .then(user => {
-            console.log('HERE!!!!!!!!!')
-            res.status(200).json(user);
+            res.status(200).json({ message: 'Password was changed successfully!'});
           })
           .catch(error => {
-            console.log('HERE')
             res.status(500).json({ message: 'Cannot update user password', error});
           });
         } 
