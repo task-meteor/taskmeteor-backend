@@ -67,6 +67,18 @@ router.post('/login', validateAccountData, (req, res) => {
     });
 });
 
+router.get('/info', authMiddleware.tokenCheck, (req, res) => {
+  let { id } = req.body;
+
+  model.findBy('id', id)
+    .then(info => {
+      res.status(200).json(info.rows[0]);
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot get user info', error} );
+    });
+});
+
 router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
   let { email, id } = req.body;
 
@@ -97,9 +109,6 @@ router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
       res.status(500).json({ message: 'Cannot remove the user', error} );
     }
   }
-
-
-
 });
 
 router.put('/update', (req, res) => {
@@ -111,7 +120,6 @@ router.put('/update', (req, res) => {
       .then(user => {
 
         if (user.rows.length > 0) {
-          console.log('here')
           // res.status(200).json(user.rows);
           model.updateUser(user.rows[0], updates)
             .then(upd => {
