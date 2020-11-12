@@ -35,20 +35,31 @@ function deleteById(id) {
 function updateUser(user, updates) {
   let data = ''
 
+  let notEmpty = 0;
   if (user.name != updates.name) {
-    data = data + `name = '${updates.name}'`
+    data = data + `name = '${updates.name}'`;
+    notEmpty += 1;
   }
   if (user.email != updates.email) {
-    data = data + `, email = '${updates.email}'`
+    if (notEmpty > 0) {
+      data = data + `, `;
+    }
+    data = data + `email = '${updates.email}'`
+    notEmpty += 1;
   }
   if (user.info != updates.info) {
-    data = data + `, info = '${updates.info}'`
+    if (notEmpty > 0) {
+      data = data + `, `;
+    }
+    data = data + `info = '${updates.info}'`;
   }
 
-  console.log(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`)
+  // console.log(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`)
 
-  if (user.id) {
-    return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`);
+  if (user.id && data != '') {
+    return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email, info`);
+  } else {
+    return 'Nothing to do'
   }
 }
 
