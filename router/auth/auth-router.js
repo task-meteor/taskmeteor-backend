@@ -118,7 +118,6 @@ router.put('/update', (req, res) => {
   if (updates.id) {
     model.findBy('id', updates.id)
       .then(user => {
-
         if (user.rows.length > 0) {
           // res.status(200).json(user.rows);
           model.updateUser(user.rows[0], updates)
@@ -151,13 +150,35 @@ router.put('/update', (req, res) => {
   }
 });
 
-router.put('/updatepass', authMiddleware.tokenCheck, (req, res) => {
+router.put('/updatepass', authMiddleware.tokenCheck, authMiddleware.passCheck, (req, res) => {
   const {id, oldpass, password} = req.body;
   
   if (oldpass === password) {
     res.status(400).json({ message: 'Create a different password!'} );
   }
 
+  model.findBy('id', id)
+  .then(user => {
+    let userData = user.rows[0];
+    delete userData.id;
+    userData.password = password;
+
+    const hash = bcrypt.hashSync(userData.password, 10);
+    userData.password = hash;
+    console.log(userData)
+    // console.log(id)
+
+    model.updatePass(id, userData.password)
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(error => {
+        res.status(500).json({ message: 'Cannot update user password', error});
+      });
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Cannot update user password', error});
+  });
 });
 
 router.get('/users', authMiddleware.tokenCheck, (req, res) => {

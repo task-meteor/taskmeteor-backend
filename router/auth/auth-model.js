@@ -5,6 +5,7 @@ module.exports = {
   find,
   findBy,
   updateUser,
+  updatePass,
   deleteById,
   deleteByEmail
 };
@@ -61,6 +62,10 @@ function updateUser(user, updates) {
   } else {
     return pool.query(`SELECT id, name FROM users WHERE id = '${user.id}'`);
   }
+}
+
+function updatePass(id, password) {
+  return pool.query(`UPDATE users SET password = '${password}' WHERE id = '${id}'`);
 }
 
 function deleteByEmail(email) {
