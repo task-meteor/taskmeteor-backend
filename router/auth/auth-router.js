@@ -70,11 +70,8 @@ router.post('/login', validateAccountData, (req, res) => {
 router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
   let { email, id } = req.body;
 
-  // if (id != undefined) {
-  //   console.log(id)
-  // }
-
-  model.deleteById(id)
+  if (id != undefined) {
+    model.deleteById(id)
     .then(deleted => {
       res.status(200).json({ 
         message: 'User was deleted!',
@@ -84,6 +81,24 @@ router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
     .catch(error => {
       res.status(500).json({ message: 'Cannot remove the user', error} );
     });
+  } else {
+    if (email != undefined) {
+    model.deleteByEmail(email)
+      .then(deleted => {
+        res.status(200).json({ 
+          message: 'User was deleted!',
+          deletedUser: deleted.rows 
+        });
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot remove the user', error} );
+    });
+  } else {
+      res.status(500).json({ message: 'Cannot remove the user', error} );
+    }
+  }
+
+
 
 });
 
