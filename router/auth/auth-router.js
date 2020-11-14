@@ -80,7 +80,7 @@ router.get('/info', authMiddleware.tokenCheck, (req, res) => {
     });
 });
 
-router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
+router.delete('/remove', authMiddleware.tokenCheck, authMiddleware.removeCheck, (req, res) => {
   let { email, id } = req.body;
 
   if (id != undefined) {
@@ -112,7 +112,7 @@ router.delete('/remove', authMiddleware.removeCheck, (req, res) => {
   }
 });
 
-router.put('/update', (req, res) => {
+router.put('/update', authMiddleware.tokenCheck, (req, res) => {
   const updates = req.body;
   // console.log(updates)
 
