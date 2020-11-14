@@ -3,7 +3,12 @@ const { pool } = require('../../config.js')
 module.exports = {
   createUser,
   find,
-  findBy
+  findBy,
+  fullFindBy,
+  updateUser,
+  updatePass,
+  deleteById,
+  deleteByEmail
 };
 
 
@@ -20,5 +25,56 @@ function find() {
 }
 
 function findBy(parameter, filter) {
+  return pool.query(`SELECT id, name, email, info FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function fullFindBy(parameter, filter) {
   return pool.query(`SELECT * FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function deleteById(id) {
+  if (id) {
+    return pool.query(`DELETE FROM users WHERE id = '${id}' RETURNING id, name, email`);
+  }
+}
+
+function updateUser(user, updates) {
+  let data = ''
+
+  let notEmpty = 0;
+  if (user.name != updates.name) {
+    data = data + `name = '${updates.name}'`;
+    notEmpty += 1;
+  }
+  if (user.email != updates.email) {
+    if (notEmpty > 0) {
+      data = data + `, `;
+    }
+    data = data + `email = '${updates.email}'`
+    notEmpty += 1;
+  }
+  if (user.info != updates.info) {
+    if (notEmpty > 0) {
+      data = data + `, `;
+    }
+    data = data + `info = '${updates.info}'`;
+  }
+
+  // console.log(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`)
+
+  if (user.id && data != '') {
+    return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email, info`);
+  } else {
+    return pool.query(`SELECT id, name FROM users WHERE id = '${user.id}'`);
+  }
+}
+
+function updatePass(id, password) {
+  return pool.query(`UPDATE users SET password = '${password}' WHERE id = '${id}'`);
+}
+
+function deleteByEmail(email) {
+  if (email) {
+    return pool.query(`DELETE FROM users WHERE email = '${email}' RETURNING id, name, email`);
+  }
 }
