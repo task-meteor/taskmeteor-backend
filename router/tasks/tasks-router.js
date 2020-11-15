@@ -15,6 +15,18 @@ router.get('/', middleware.tokenCheck, (req, res) => {
     });
 });
 
+router.get('/byuser', middleware.tokenCheck, (req, res) => {
+  const userId = req.body.userId
+
+  model.findTaskByUser(userId)
+    .then(tasks => {
+      res.status(200).json(tasks.rows);
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot get the list of tasks', error} );
+    });
+});
+
 router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
   model.findUser('id', req.body.user)
     .then(task => {

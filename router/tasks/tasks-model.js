@@ -5,6 +5,7 @@ module.exports = {
   findBy,
   findUser,
   findByTaskId,
+  findTaskByUser,
   createTaks,
   updateTask,
   deleteById,
@@ -17,6 +18,9 @@ function find() {
 
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM tasks WHERE ${parameter} = '${filter}'`);
+}
+function findTaskByUser(userId) {
+  return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}'`);
 }
 function findByTaskId(taskId) {
   return pool.query(`SELECT * FROM tasks WHERE task_id = ${taskId}`);
