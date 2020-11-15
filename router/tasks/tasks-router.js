@@ -35,4 +35,16 @@ router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
     });
 });
 
+router.delete('/', middleware.tokenCheck, (req, res) => {
+  const taskId = req.body.id
+
+  model.deleteById(taskId)
+    .then(task => {
+      res.status(200).json({ message: 'Task was deleted successfully!', deletedTask: task.rows[0]});
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot delete task!', error} );
+    });
+});
+
 module.exports = router;

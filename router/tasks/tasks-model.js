@@ -5,6 +5,7 @@ module.exports = {
   findBy,
   findUser,
   createTaks,
+  deleteById,
 };
 
 function find() {
@@ -21,4 +22,10 @@ function findUser(parameter, filter) {
 
 function createTaks(task) {
   return pool.query(`INSERT INTO tasks ("user", name, status, date) VALUES ('${task.user}', '${task.name}', '${task.status}', '${task.date}') RETURNING task_id, name, status`)
+}
+
+function deleteById(taskId) {
+  if (taskId) {
+    return pool.query(`DELETE FROM tasks WHERE task_id = '${taskId}' RETURNING task_id, user, name, status`);
+  }
 }
