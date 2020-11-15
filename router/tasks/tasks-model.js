@@ -51,9 +51,9 @@ function updateTask(oldTask, taskUpd) {
     }
     data = data + `date = '${taskUpd.date}'`;
   }
-  console.log(data)
-  console.log(oldTask)
-  console.log(taskUpd)
+
+  // console.log(new Date(oldTask.date).toUTCString());
+  // console.log(new Date(oldTask.date).toISOString());
 
   if (oldTask.task_id && data != '') {
     return pool.query(`UPDATE tasks SET ${data} WHERE task_id = '${oldTask.task_id}' RETURNING task_id, user, name, status, date`);
