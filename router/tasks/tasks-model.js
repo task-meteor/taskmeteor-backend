@@ -6,6 +6,7 @@ module.exports = {
   findUser,
   createTaks,
   deleteById,
+  deleteByUserId,
 };
 
 function find() {
@@ -27,5 +28,10 @@ function createTaks(task) {
 function deleteById(taskId) {
   if (taskId) {
     return pool.query(`DELETE FROM tasks WHERE task_id = '${taskId}' RETURNING task_id, user, name, status`);
+  }
+}
+function deleteByUserId(userId) {
+  if (userId) {
+    return pool.query(`DELETE FROM tasks WHERE "user" = '${userId}' RETURNING task_id, user, name`);
   }
 }
