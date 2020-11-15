@@ -20,5 +20,5 @@ function findUser(parameter, filter) {
 }
 
 function createTaks(task) {
-  return pool.query(`INSERT INTO tasks (user, name, status, date) VALUES ('${task.name}', '${task.email}', '${task.password}', '${task.info}')`)
+  return pool.query(`INSERT INTO tasks ("user", name, status, date) VALUES ('${task.user}', '${task.name}', '${task.status}', '${task.date}')`)
 }

@@ -24,7 +24,6 @@ taskCheck = (req, res, next) => {
   let errors = [];
 
   const check = () => {
-    console.log(req.body)
     if (!user || !name || status.length === 0 || !date) {
       errors.push("You have missing parameter!");
     } else {

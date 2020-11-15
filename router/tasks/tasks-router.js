@@ -16,24 +16,18 @@ router.get('/', middleware.tokenCheck, (req, res) => {
 });
 
 router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
-  let { user, name, status, date } = req.body;
-
-  model.findUser('id', user)
+  model.findUser('id', req.body.user)
     .then(task => {
       if (task.rowCount > 0) {
-
-
-
-
-        // res.status(200).json({
-        //   message: `Welcome to the Meteor BE, ${user.rows[0].name}!`,
-        //   id: user.rows[0].id,
-        //   name: user.rows[0].name,
-        //   email: user.rows[0].email,
-        //   token,
-        // });
+        model.createTaks(req.body)
+        .then(task => {
+          res.status(200).json(task);
+        })
+        .catch(error => {
+          res.status(500).json({ message: 'Cannot add new task', error });
+        });
       } else {
-        res.status(401).json({ message: 'User with current id doesnt exist. You cannot add task without owner.' });
+        res.status(401).json({ message: 'User with current id doesnt exist. You cannot add task without correct owner.' });
       }
     })
     .catch(error => {
