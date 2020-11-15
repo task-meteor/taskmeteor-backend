@@ -35,8 +35,35 @@ router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
     });
 });
 
-router.delete('/', middleware.tokenCheck, (req, res) => {
-  const taskId = req.body.id
+router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
+  const taskId = req.params.id
+  const taskUpd = req.body
+
+  model.findByTaskId(taskId)
+    .then(task => {
+      if (task.rows.length > 0) {
+        const oldTask = task.rows[0]
+
+        model.updateTask(oldTask, taskUpd)
+
+          .then(task => {
+            res.status(200).json(task);
+          })
+          .catch(error => {
+            res.status(500).json({ message: 'Cannot update the task!'} );
+          });
+
+      } else {
+        res.status(404).json({ message: 'Cannot find task for updates!'} );
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot update the task!'} );
+    });
+});
+
+router.delete('/:id', middleware.tokenCheck, (req, res) => {
+  const taskId = req.params.id
 
   model.deleteById(taskId)
     .then(task => {
