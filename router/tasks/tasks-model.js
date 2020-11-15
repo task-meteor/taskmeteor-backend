@@ -3,6 +3,8 @@ const { pool } = require('../../config.js')
 module.exports = {
   find,
   findBy,
+  findUser,
+  createTaks,
 };
 
 function find() {
@@ -10,5 +12,13 @@ function find() {
 }
 
 function findBy(parameter, filter) {
-  return pool.query(`SELECT id, name, email, info FROM tasks WHERE ${parameter} = '${filter}'`);
+  return pool.query(`SELECT * FROM tasks WHERE ${parameter} = '${filter}'`);
+}
+
+function findUser(parameter, filter) {
+  return pool.query(`SELECT id FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function createTaks(task) {
+  return pool.query(`INSERT INTO tasks (user, name, status, date) VALUES ('${task.name}', '${task.email}', '${task.password}', '${task.info}')`)
 }
