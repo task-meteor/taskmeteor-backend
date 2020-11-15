@@ -60,8 +60,6 @@ function updateUser(user, updates) {
     data = data + `info = '${updates.info}'`;
   }
 
-  // console.log(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email`)
-
   if (user.id && data != '') {
     return pool.query(`UPDATE users SET ${data} WHERE id = '${user.id}' RETURNING id, name, email, info`);
   } else {
