@@ -21,7 +21,7 @@ router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
       if (task.rowCount > 0) {
         model.createTaks(req.body)
         .then(task => {
-          res.status(200).json(task);
+          res.status(200).json({ message: 'New task was created!', taskData: task.rows[0] });
         })
         .catch(error => {
           res.status(500).json({ message: 'Cannot add new task', error });
