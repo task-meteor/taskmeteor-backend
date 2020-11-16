@@ -19,22 +19,16 @@ tokenCheck = (req, res, next) => {
   }
 };
 
-taskCheck = (req, res, next) => {
-  let { user, name, status, date } = req.body;
+periodCheck = (req, res, next) => {
+  let { user, start, length } = req.body;
   let errors = [];
 
   const check = () => {
-    if (!user || !name || status.length === 0 || !date) {
+    if (!user || !start || !length) {
       errors.push("You have missing parameter!");
     } else {
-      if (name.length > 128) {
-        errors.push("Task name should be not longer than 128 symbols"); 
-      }
-      if (name.search(/[a-z]/i) < 0) {
-        errors.push("Your task name must contain at least one letter");
-      }
-      if (typeof status != "boolean") {
-        errors.push("Status should have a boolean format"); 
+      if (typeof length != "number") {
+        errors.push("Length should have a number format"); 
       }
       else {
         return true
@@ -47,11 +41,11 @@ taskCheck = (req, res, next) => {
     next()
   } else {
     res.status(401).json({ 
-        message: 'Task data verification problems',  
+        message: 'Period data verification problems',  
         errors: errors,  
       });
   }
 };
 
 exports.tokenCheck = tokenCheck
-exports.taskCheck = taskCheck
+exports.periodCheck = periodCheck

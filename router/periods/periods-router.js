@@ -27,52 +27,52 @@ router.get('/byuser', middleware.tokenCheck, (req, res) => {
     });
 });
 
-router.post('/', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
+router.post('/', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
   model.findUser('id', req.body.user)
-    .then(task => {
-      if (task.rowCount > 0) {
+    .then(period => {
+      if (period.rowCount > 0) {
         model.createTaks(req.body)
-        .then(task => {
-          res.status(200).json({ message: 'New task was created!', taskData: task.rows[0] });
+        .then(period => {
+          res.status(200).json({ message: 'New period was created!', periodData: period.rows[0] });
         })
         .catch(error => {
-          res.status(500).json({ message: 'Cannot add new task', error });
+          res.status(500).json({ message: 'Cannot add new period', error });
         });
       } else {
-        res.status(401).json({ message: 'User with current id doesnt exist. You cannot add task without correct owner.' });
+        res.status(401).json({ message: 'User with current id doesnt exist. You cannot add period without correct owner.' });
       }
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot add new task', error });
+      res.status(500).json({ message: 'Cannot add new period', error });
     });
 });
 
-router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
-  const taskId = req.params.id
-  const taskUpd = req.body
+// router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
+//   const taskId = req.params.id
+//   const taskUpd = req.body
 
-  model.findByTaskId(taskId)
-    .then(task => {
-      if (task.rows.length > 0) {
-        const oldTask = task.rows[0]
+//   model.findByTaskId(taskId)
+//     .then(task => {
+//       if (task.rows.length > 0) {
+//         const oldTask = task.rows[0]
 
-        model.updateTask(oldTask, taskUpd)
+//         model.updateTask(oldTask, taskUpd)
 
-          .then(task => {
-            res.status(200).json(task);
-          })
-          .catch(error => {
-            res.status(500).json({ message: 'Cannot update the task!'} );
-          });
+//           .then(task => {
+//             res.status(200).json(task);
+//           })
+//           .catch(error => {
+//             res.status(500).json({ message: 'Cannot update the task!'} );
+//           });
 
-      } else {
-        res.status(404).json({ message: 'Cannot find task for updates!'} );
-      }
-    })
-    .catch(error => {
-      res.status(500).json({ message: 'Cannot update the task!'} );
-    });
-});
+//       } else {
+//         res.status(404).json({ message: 'Cannot find task for updates!'} );
+//       }
+//     })
+//     .catch(error => {
+//       res.status(500).json({ message: 'Cannot update the task!'} );
+//     });
+// });
 
 router.delete('/:id', middleware.tokenCheck, (req, res) => {
   const taskId = req.params.id

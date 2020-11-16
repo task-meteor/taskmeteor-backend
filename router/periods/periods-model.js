@@ -4,8 +4,8 @@ module.exports = {
   find,
   findBy,
   findUser,
-  findByTaskId,
-  findTaskByUser,
+  findByPeriodId,
+  findPeriodByUser,
   createTaks,
   updateTask,
   deleteById,
@@ -19,11 +19,11 @@ function find() {
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM periods WHERE ${parameter} = '${filter}'`);
 }
-function findTaskByUser(userId) {
+function findPeriodByUser(userId) {
   return pool.query(`SELECT * FROM periods WHERE "user" = '${userId}'`);
 }
-function findByTaskId(taskId) {
-  return pool.query(`SELECT * FROM periods WHERE task_id = ${taskId}`);
+function findByPeriodId(periodId) {
+  return pool.query(`SELECT * FROM periods WHERE period_id = ${periodId}`);
 }
 
 function findUser(parameter, filter) {
@@ -31,7 +31,7 @@ function findUser(parameter, filter) {
 }
 
 function createTaks(task) {
-  return pool.query(`INSERT INTO periods ("user", name, status, date) VALUES ('${task.user}', '${task.name}', '${task.status}', '${task.date}') RETURNING task_id, name, status`)
+  return pool.query(`INSERT INTO periods ("user", start, length, info) VALUES ('${task.user}', '${task.start}', '${task.length}', '${task.info}') RETURNING period_id, start, info`)
 }
 
 function updateTask(oldTask, taskUpd) {
