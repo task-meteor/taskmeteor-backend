@@ -24,13 +24,21 @@ function find(limit) {
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM tasks WHERE ${parameter} = '${filter}'`);
 }
-function findTaskByUser(userId, limit) {
-  if (limit) {
-    return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}' LIMIT ${limit}`);
-  } else {
-    return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}'`);
+function findTaskByUser(userId, limit, from) {
+  let query = `SELECT * FROM tasks WHERE "user" = '${userId}' ORDER BY task_id`
+
+  if (from) {
+    query = query + ` OFFSET ${from} ROWS`
   }
+  if (limit) {
+    query = query + ` FETCH FIRST ${limit} ROW ONLY`
+  }
+
+  return pool.query(query); 
 }
+
+
+
 function findByTaskId(taskId) {
   return pool.query(`SELECT * FROM tasks WHERE task_id = ${taskId}`);
 }

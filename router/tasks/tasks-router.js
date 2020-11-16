@@ -30,8 +30,9 @@ router.get('/id/:id', middleware.tokenCheck, (req, res) => {
 router.get('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
   const limit = req.query.limit
+  const from = req.query.from
 
-  model.findTaskByUser(userId, limit)
+  model.findTaskByUser(userId, limit, from)
     .then(tasks => {
       res.status(200).json(tasks.rows);
     })
