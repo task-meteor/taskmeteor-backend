@@ -6,8 +6,8 @@ module.exports = {
   findUser,
   findByPeriodId,
   findPeriodByUser,
-  createTaks,
-  updateTask,
+  createPeriod,
+  updatePeriod,
   deleteById,
   deleteByUserId,
 };
@@ -30,39 +30,39 @@ function findUser(parameter, filter) {
   return pool.query(`SELECT id FROM users WHERE ${parameter} = '${filter}'`);
 }
 
-function createTaks(task) {
+function createPeriod(task) {
   return pool.query(`INSERT INTO periods ("user", start, length, info) VALUES ('${task.user}', '${task.start}', '${task.length}', '${task.info}') RETURNING period_id, start, length, info`)
 }
 
-function updateTask(oldTask, taskUpd) {
+function updatePeriod(oldPeriod, taskUpd) {
   let data = ''
 
   let notEmpty = 0;
-  if (oldTask.name != taskUpd.name) {
-    data = data + `name = '${taskUpd.name}'`;
+  if (oldPeriod.start != taskUpd.start) {
+    data = data + `start = '${taskUpd.start}'`;
     notEmpty += 1;
   }
-  if (oldTask.status != taskUpd.status) {
+  if (oldPeriod.length != taskUpd.length) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
-    data = data + `status = ${taskUpd.status}`
+    data = data + `length = ${taskUpd.length}`
     notEmpty += 1;
   }
-  if (oldTask.date != taskUpd.date) {
+  if (oldPeriod.info != taskUpd.info) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
-    data = data + `date = '${taskUpd.date}'`;
+    data = data + `info = '${taskUpd.info}'`;
   }
 
-  // console.log(new Date(oldTask.date).toUTCString());
-  // console.log(new Date(oldTask.date).toISOString());
+  // console.log(new Date(oldPeriod.date).toUTCString());
+  // console.log(new Date(oldPeriod.date).toISOString());
 
-  if (oldTask.task_id && data != '') {
-    return pool.query(`UPDATE tasks SET ${data} WHERE task_id = '${oldTask.task_id}' RETURNING task_id, user, name, status, date`);
+  if (oldPeriod.period_id && data != '') {
+    return pool.query(`UPDATE periods SET ${data} WHERE period_id = '${oldPeriod.period_id}' RETURNING period_id, "user", start, length, info`);
   } else {
-    return pool.query(`SELECT task_id, name FROM tasks WHERE task_id = '${oldTask.task_id}'`);
+    return pool.query(`SELECT period_id, info FROM periods WHERE period_id = '${oldPeriod.period_id}'`);
   }
 }
 
@@ -74,6 +74,6 @@ function deleteById(periodID) {
 
 function deleteByUserId(userId) {
   if (userId) {
-    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, user, length, info`);
+    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, "user", length, info`);
   }
 }

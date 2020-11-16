@@ -43,7 +43,7 @@ router.post('/', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
   model.findUser('id', req.body.user)
     .then(period => {
       if (period.rowCount > 0) {
-        model.createTaks(req.body)
+        model.createPeriod(req.body)
         .then(period => {
           res.status(200).json({ message: 'New period was created!', periodData: period.rows[0] });
         })
@@ -59,32 +59,32 @@ router.post('/', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
     });
 });
 
-// router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
-//   const taskId = req.params.id
-//   const taskUpd = req.body
+router.put('/:id', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
+  const periodID = req.params.id
+  const periodUpd = req.body
 
-//   model.findByTaskId(taskId)
-//     .then(task => {
-//       if (task.rows.length > 0) {
-//         const oldTask = task.rows[0]
+  model.findByPeriodId(periodID)
+    .then(period => {
+      if (period.rows.length > 0) {
+        const oldPeriod = period.rows[0]
 
-//         model.updateTask(oldTask, taskUpd)
+        model.updatePeriod(oldPeriod, periodUpd)
 
-//           .then(task => {
-//             res.status(200).json(task);
-//           })
-//           .catch(error => {
-//             res.status(500).json({ message: 'Cannot update the task!'} );
-//           });
+          .then(period => {
+            res.status(200).json({ message: 'Period was updated!', period: period.rows[0]});
+          })
+          .catch(error => {
+            res.status(500).json({ message: 'Cannot update the period!'} );
+          });
 
-//       } else {
-//         res.status(404).json({ message: 'Cannot find task for updates!'} );
-//       }
-//     })
-//     .catch(error => {
-//       res.status(500).json({ message: 'Cannot update the task!'} );
-//     });
-// });
+      } else {
+        res.status(404).json({ message: 'Cannot find period for updates!'} );
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot update the period!'} );
+    });
+});
 
 router.delete('/id/:id', middleware.tokenCheck, (req, res) => {
   const periodID = req.params.id
