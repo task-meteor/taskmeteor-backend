@@ -15,7 +15,7 @@ router.get('/', middleware.tokenCheck, (req, res) => {
     });
 });
 
-router.get('/:id', middleware.tokenCheck, (req, res) => {
+router.get('/id/:id', middleware.tokenCheck, (req, res) => {
   const periodId = req.params.id
 
   model.findByPeriodId(periodId)
