@@ -66,9 +66,9 @@ function updateTask(oldTask, taskUpd) {
   }
 }
 
-function deleteById(taskId) {
-  if (taskId) {
-    return pool.query(`DELETE FROM tasks WHERE task_id = '${taskId}' RETURNING task_id, user, name, status`);
+function deleteById(periodID) {
+  if (periodID) {
+    return pool.query(`DELETE FROM periods WHERE period_id = '${periodID}' RETURNING period_id, "user", start, length, info`);
   }
 }
 function deleteByUserId(userId) {

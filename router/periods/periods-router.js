@@ -87,14 +87,14 @@ router.post('/', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
 // });
 
 router.delete('/:id', middleware.tokenCheck, (req, res) => {
-  const taskId = req.params.id
+  const periodID = req.params.id
 
-  model.deleteById(taskId)
-    .then(task => {
-      res.status(200).json({ message: 'Task was deleted successfully!', deletedTask: task.rows[0]});
+  model.deleteById(periodID)
+    .then(period => {
+      res.status(200).json({ message: 'Period was deleted successfully!', deletedPeriod: period.rows[0]});
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot delete task!', error} );
+      res.status(500).json({ message: 'Cannot delete period!', error} );
     });
 });
 
