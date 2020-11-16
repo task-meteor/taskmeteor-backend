@@ -71,9 +71,9 @@ function deleteById(periodID) {
     return pool.query(`DELETE FROM periods WHERE period_id = '${periodID}' RETURNING period_id, "user", start, length, info`);
   }
 }
+
 function deleteByUserId(userId) {
   if (userId) {
-    console.log(`here`)
-    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, user, info`);
+    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, user, length, info`);
   }
 }
