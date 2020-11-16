@@ -11,14 +11,26 @@ router.get('/', middleware.tokenCheck, (req, res) => {
       res.status(200).json(periods.rows);
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot get the list of periods', error} );
+      res.status(500).json({ message: 'Cannot get the list of periods', error });
+    });
+});
+
+router.get('/:id', middleware.tokenCheck, (req, res) => {
+  const periodId = req.params.id
+
+  model.findByPeriodId(periodId)
+    .then(period => {
+      res.status(200).json(period.rows);
+    })
+    .catch(error => {
+      res.status(500).json({ message: 'Cannot get the period', error });
     });
 });
 
 router.get('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
 
-  model.findTaskByUser(userId)
+  model.findPeriodByUser(userId)
     .then(periods => {
       res.status(200).json(periods.rows);
     })

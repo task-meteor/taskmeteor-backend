@@ -31,7 +31,7 @@ function findUser(parameter, filter) {
 }
 
 function createTaks(task) {
-  return pool.query(`INSERT INTO periods ("user", start, length, info) VALUES ('${task.user}', '${task.start}', '${task.length}', '${task.info}') RETURNING period_id, start, info`)
+  return pool.query(`INSERT INTO periods ("user", start, length, info) VALUES ('${task.user}', '${task.start}', '${task.length}', '${task.info}') RETURNING period_id, start, length, info`)
 }
 
 function updateTask(oldTask, taskUpd) {
