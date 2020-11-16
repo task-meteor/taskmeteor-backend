@@ -5,8 +5,9 @@ const middleware = require('./middleware.js');
 
 
 router.get('/', middleware.tokenCheck, (req, res) => {
+  const limit = req.query.limit
 
-  model.find()
+  model.find(limit)
     .then(tasks => {
       res.status(200).json(tasks.rows);
     })
@@ -28,8 +29,9 @@ router.get('/id/:id', middleware.tokenCheck, (req, res) => {
 
 router.get('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
+  const limit = req.query.limit
 
-  model.findTaskByUser(userId)
+  model.findTaskByUser(userId, limit)
     .then(tasks => {
       res.status(200).json(tasks.rows);
     })

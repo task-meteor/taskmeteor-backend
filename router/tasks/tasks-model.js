@@ -12,15 +12,24 @@ module.exports = {
   deleteByUserId,
 };
 
-function find() {
-  return pool.query('SELECT * FROM tasks');
+function find(limit) {
+  
+  if (limit) {
+    return pool.query(`SELECT * FROM tasks LIMIT ${limit}`);
+  } else {
+    return pool.query('SELECT * FROM tasks');
+  }
 }
 
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM tasks WHERE ${parameter} = '${filter}'`);
 }
-function findTaskByUser(userId) {
-  return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}'`);
+function findTaskByUser(userId, limit) {
+  if (limit) {
+    return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}' LIMIT ${limit}`);
+  } else {
+    return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}'`);
+  }
 }
 function findByTaskId(taskId) {
   return pool.query(`SELECT * FROM tasks WHERE task_id = ${taskId}`);
