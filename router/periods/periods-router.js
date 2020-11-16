@@ -88,6 +88,7 @@ router.post('/', middleware.tokenCheck, middleware.periodCheck, (req, res) => {
 
 router.delete('/:id', middleware.tokenCheck, (req, res) => {
   const periodID = req.params.id
+  console.log(periodID)
 
   model.deleteById(periodID)
     .then(period => {
@@ -101,12 +102,15 @@ router.delete('/:id', middleware.tokenCheck, (req, res) => {
 router.delete('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
 
+  console.log(userId)
+  console.log(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, user, info`)
+  
   model.deleteByUserId(userId)
-    .then(task => {
-      res.status(200).json({ message: 'All task of user was deleted successfully!', deletedTasks: task.rows});
+    .then(periods => {
+      res.status(200).json({ message: 'All periods of user was deleted successfully!', deletedPeriods: periods.rows});
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot delete task!', error} );
+      res.status(500).json({ message: 'Cannot delete periods!', error} );
     });
 });
 

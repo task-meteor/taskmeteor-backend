@@ -73,6 +73,7 @@ function deleteById(periodID) {
 }
 function deleteByUserId(userId) {
   if (userId) {
-    return pool.query(`DELETE FROM tasks WHERE "user" = '${userId}' RETURNING task_id, user, name`);
+    console.log(`here`)
+    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}' RETURNING period_id, user, info`);
   }
 }
