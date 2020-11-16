@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const auth = require('../router/auth/auth-router.js');
 const tasks = require('../router/tasks/tasks-router.js');
+const periods = require('../router/periods/periods-router.js');
 
 
 const logger = (req, res, next) => {
@@ -27,6 +28,7 @@ server.get('/', (req, res) => {
 
 server.use('/auth', auth);
 server.use('/tasks', tasks);
+server.use('/periods', periods);
 
 
 module.exports = server;
