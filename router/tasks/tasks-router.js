@@ -74,7 +74,7 @@ router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
     });
 });
 
-router.delete('/:id', middleware.tokenCheck, (req, res) => {
+router.delete('/id/:id', middleware.tokenCheck, (req, res) => {
   const taskId = req.params.id
 
   model.deleteById(taskId)
