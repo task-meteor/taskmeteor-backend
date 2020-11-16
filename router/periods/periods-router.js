@@ -1,17 +1,17 @@
 const router = require('express').Router();
 
-const model = require('../tasks/tasks-model.js');
-const middleware = require('../tasks/middleware.js');
+const model = require('./periods-model.js');
+const middleware = require('./middleware.js');
 
 
 router.get('/', middleware.tokenCheck, (req, res) => {
 
   model.find()
-    .then(tasks => {
-      res.status(200).json(tasks.rows);
+    .then(periods => {
+      res.status(200).json(periods.rows);
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot get the list of tasks', error} );
+      res.status(500).json({ message: 'Cannot get the list of periods', error} );
     });
 });
 
@@ -19,11 +19,11 @@ router.get('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
 
   model.findTaskByUser(userId)
-    .then(tasks => {
-      res.status(200).json(tasks.rows);
+    .then(periods => {
+      res.status(200).json(periods.rows);
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot get the list of tasks', error} );
+      res.status(500).json({ message: 'Cannot get the list of periods', error} );
     });
 });
 

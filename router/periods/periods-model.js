@@ -13,17 +13,17 @@ module.exports = {
 };
 
 function find() {
-  return pool.query('SELECT * FROM tasks');
+  return pool.query('SELECT * FROM periods');
 }
 
 function findBy(parameter, filter) {
-  return pool.query(`SELECT * FROM tasks WHERE ${parameter} = '${filter}'`);
+  return pool.query(`SELECT * FROM periods WHERE ${parameter} = '${filter}'`);
 }
 function findTaskByUser(userId) {
-  return pool.query(`SELECT * FROM tasks WHERE "user" = '${userId}'`);
+  return pool.query(`SELECT * FROM periods WHERE "user" = '${userId}'`);
 }
 function findByTaskId(taskId) {
-  return pool.query(`SELECT * FROM tasks WHERE task_id = ${taskId}`);
+  return pool.query(`SELECT * FROM periods WHERE task_id = ${taskId}`);
 }
 
 function findUser(parameter, filter) {
@@ -31,7 +31,7 @@ function findUser(parameter, filter) {
 }
 
 function createTaks(task) {
-  return pool.query(`INSERT INTO tasks ("user", name, status, date) VALUES ('${task.user}', '${task.name}', '${task.status}', '${task.date}') RETURNING task_id, name, status`)
+  return pool.query(`INSERT INTO periods ("user", name, status, date) VALUES ('${task.user}', '${task.name}', '${task.status}', '${task.date}') RETURNING task_id, name, status`)
 }
 
 function updateTask(oldTask, taskUpd) {
