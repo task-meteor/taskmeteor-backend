@@ -59,7 +59,7 @@ router.put('/:id', middleware.tokenCheck, middleware.taskCheck, (req, res) => {
         model.updateTask(oldTask, taskUpd)
 
           .then(task => {
-            res.status(200).json(task);
+            res.status(200).json({ message: 'Task was updated!', task: task.rows[0]});
           })
           .catch(error => {
             res.status(500).json({ message: 'Cannot update the task!'} );
