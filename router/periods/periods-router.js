@@ -5,8 +5,9 @@ const middleware = require('./middleware.js');
 
 
 router.get('/', middleware.tokenCheck, (req, res) => {
+  const limit = req.query.limit
 
-  model.find()
+  model.find(limit)
     .then(periods => {
       res.status(200).json(periods.rows);
     })

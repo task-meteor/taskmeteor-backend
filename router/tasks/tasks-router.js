@@ -15,6 +15,7 @@ router.get('/', middleware.tokenCheck, (req, res) => {
       res.status(500).json({ message: 'Cannot get the list of tasks', error} );
     });
 });
+
 router.get('/id/:id', middleware.tokenCheck, (req, res) => {
   const taskId = req.params.id
 

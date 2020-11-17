@@ -12,8 +12,13 @@ module.exports = {
   deleteByUserId,
 };
 
-function find() {
-  return pool.query('SELECT * FROM periods');
+function find(limit) {
+  
+  if (limit) {
+    return pool.query(`SELECT * FROM periods LIMIT ${limit}`);
+  } else {
+    return pool.query('SELECT * FROM periods');
+  }
 }
 
 function findBy(parameter, filter) {
