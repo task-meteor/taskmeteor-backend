@@ -8,7 +8,8 @@ module.exports = {
   updateUser,
   updatePass,
   deleteById,
-  deleteByEmail
+  deleteByEmail,
+  userThingsCounter
 };
 
 
@@ -26,6 +27,11 @@ function find() {
 
 function findBy(parameter, filter) {
   return pool.query(`SELECT id, name, email, info FROM users WHERE ${parameter} = '${filter}'`);
+}
+
+function userThingsCounter(id) {
+  console.log(`SELECT COUNT (*) FROM periods WHERE "user" = '${id}' UNION SELECT COUNT (*) FROM tasks WHERE "user" = '${id}'`)
+  return pool.query(`SELECT COUNT (*) FROM periods WHERE "user" = '${id}' UNION SELECT COUNT (*) FROM tasks WHERE "user" = '${id}'`)
 }
 
 function fullFindBy(parameter, filter) {

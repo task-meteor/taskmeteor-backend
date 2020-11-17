@@ -15,7 +15,7 @@ function generateToken(user) {
   };
   
   const options = {
-    expiresIn: '2h',
+    expiresIn: '24h',
   }
 
   return jwt.sign(payload, secrets.jwtSecret, options);
@@ -73,7 +73,17 @@ router.get('/info', authMiddleware.tokenCheck, (req, res) => {
 
   model.findBy('id', id)
     .then(info => {
-      res.status(200).json(info.rows[0]);
+      let userData = info.rows[0]
+
+      model.userThingsCounter(id)
+        .then(info => {
+          res.status(200).json({userData: userData, periods: info.rows[0].count, tasks: info.rows[1].count});
+        })
+        .catch(error => {
+          res.status(500).json({ message: 'Cannot get user info', error} );
+        });
+
+      // res.status(200).json(info.rows[0]);
     })
     .catch(error => {
       res.status(500).json({ message: 'Cannot get user info', error} );
