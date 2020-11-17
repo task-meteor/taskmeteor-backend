@@ -19,9 +19,20 @@ function find() {
 function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM periods WHERE ${parameter} = '${filter}'`);
 }
-function findPeriodByUser(userId) {
-  return pool.query(`SELECT * FROM periods WHERE "user" = '${userId}'`);
+function findPeriodByUser(userId, limit, from) {
+  let query = `SELECT * FROM periods WHERE "user" = '${userId}' ORDER BY period_id`
+
+  if (from) {
+    query = query + ` OFFSET ${from} ROWS`
+  }
+  if (limit) {
+    query = query + ` FETCH FIRST ${limit} ROW ONLY`
+  }
+
+  return pool.query(query); 
 }
+
+
 function findByPeriodId(periodId) {
   return pool.query(`SELECT * FROM periods WHERE period_id = ${periodId}`);
 }

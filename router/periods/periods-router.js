@@ -29,8 +29,10 @@ router.get('/id/:id', middleware.tokenCheck, (req, res) => {
 
 router.get('/byuser', middleware.tokenCheck, (req, res) => {
   const userId = req.body.userId
+  const limit = req.query.limit
+  const from = req.query.from
 
-  model.findPeriodByUser(userId)
+  model.findPeriodByUser(userId, limit, from)
     .then(periods => {
       res.status(200).json(periods.rows);
     })

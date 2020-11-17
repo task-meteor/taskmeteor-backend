@@ -21,11 +21,10 @@ tokenCheck = (req, res, next) => {
 
 periodCheck = (req, res, next) => {
   let { user, start, length } = req.body;
-  const periodId = req.params.id
   let errors = [];
 
   const check = () => {
-    if (!periodId || !user || !start || !length) {
+    if (!user || !start || !length) {
       errors.push("You have missing parameter!");
     } else {
       if (typeof length != "number") {
