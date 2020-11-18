@@ -16,7 +16,7 @@ module.exports = {
 
 
 function createUser(user) {
-  if (user.info != null && user.info != undefined) {
+  if (user.info != null && user.info) {
     return pool.query(`INSERT INTO users (name, email, password, info) VALUES ('${user.name}', '${user.email}', '${user.password}', '${user.info}')`)
   } else {
     return pool.query(`INSERT INTO users (name, email, password, info) VALUES ('${user.name}', '${user.email}', '${user.password}', null)`)
@@ -61,18 +61,18 @@ function updateUser(user, updates) {
   let data = ''
 
   let notEmpty = 0;
-  if (user.name != updates.name) {
+  if (user.name !== updates.name) {
     data = data + `name = '${updates.name}'`;
     notEmpty += 1;
   }
-  if (user.email != updates.email) {
+  if (user.email !== updates.email) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
     data = data + `email = '${updates.email}'`
     notEmpty += 1;
   }
-  if (user.info != updates.info) {
+  if (user.info !== updates.info) {
     if (notEmpty > 0) {
       data = data + `, `;
     }

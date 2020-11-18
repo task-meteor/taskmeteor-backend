@@ -25,13 +25,13 @@ function findBy(parameter, filter) {
   return pool.query(`SELECT * FROM periods WHERE ${parameter} = '${filter}'`);
 }
 function findPeriodByUser(userId, limit, from) {
-  let query = `SELECT * FROM periods WHERE "user" = '${userId}' ORDER BY period_id`
+  let query = `SELECT * FROM periods WHERE "user" = '${userId}' ORDER BY period_id`;
 
   if (from) {
-    query = query + ` OFFSET ${from} ROWS`
+    query = (query + ` OFFSET ${from} ROWS`);
   }
   if (limit) {
-    query = query + ` FETCH FIRST ${limit} ROW ONLY`
+    query = (query + ` FETCH FIRST ${limit} ROW ONLY`);
   }
 
   return pool.query(query); 
@@ -54,18 +54,18 @@ function updatePeriod(oldPeriod, taskUpd) {
   let data = ''
 
   let notEmpty = 0;
-  if (oldPeriod.start != taskUpd.start) {
+  if (oldPeriod.start !== taskUpd.start) {
     data = data + `start = '${taskUpd.start}'`;
     notEmpty += 1;
   }
-  if (oldPeriod.length != taskUpd.length) {
+  if (oldPeriod.length !== taskUpd.length) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
     data = data + `length = ${taskUpd.length}`
     notEmpty += 1;
   }
-  if (oldPeriod.info != taskUpd.info) {
+  if (oldPeriod.info !== taskUpd.info) {
     if (notEmpty > 0) {
       data = data + `, `;
     }

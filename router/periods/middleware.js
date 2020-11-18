@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('../auth/secrets.js');
 
-tokenCheck = (req, res, next) => {
+const tokenCheck = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
@@ -19,7 +19,7 @@ tokenCheck = (req, res, next) => {
   }
 };
 
-periodCheck = (req, res, next) => {
+const periodCheck = (req, res, next) => {
   let { user, start, length } = req.body;
   let errors = [];
 
@@ -38,11 +38,11 @@ periodCheck = (req, res, next) => {
   }
 
   if (check() === true) {
-    next()
+    next();
   } else {
     res.status(401).json({ 
         message: 'Period data verification problems',  
-        errors: errors,  
+        issues: errors,  
       });
   }
 };

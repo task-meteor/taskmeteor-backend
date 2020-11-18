@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('../auth/secrets.js');
 
-tokenCheck = (req, res, next) => {
+const tokenCheck = (req, res, next) => {
   const token = req.headers.authorization;
   if (token) {
     jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
@@ -19,7 +19,7 @@ tokenCheck = (req, res, next) => {
   }
 };
 
-taskCheck = (req, res, next) => {
+const taskCheck = (req, res, next) => {
   let { user, name, status, date } = req.body;
   let errors = [];
 

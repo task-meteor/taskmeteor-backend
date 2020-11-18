@@ -1,4 +1,4 @@
-const { pool } = require('../../config.js')
+const { pool } = require('../../config.js');
 
 module.exports = {
   find,
@@ -52,7 +52,7 @@ function createTaks(task) {
 }
 
 function updateTask(oldTask, taskUpd) {
-  let data = ''
+  let data = ""
 
   let notEmpty = 0;
   if (oldTask.name != taskUpd.name) {
