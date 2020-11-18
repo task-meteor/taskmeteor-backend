@@ -10,7 +10,7 @@ const tokenCheck = (req, res, next) => {
       } else {
         req.user = { 
           name: decodedToken.name
-        }
+        };
         next();
       }
     });
@@ -59,7 +59,7 @@ const removeCheck = (req, res, next) => {
           res.status(400).json({message: "Please provide id or email for operations with user data!"})
       }
       else {
-          next()
+          next();
       }
   };
 

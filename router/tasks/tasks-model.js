@@ -52,21 +52,21 @@ function createTaks(task) {
 }
 
 function updateTask(oldTask, taskUpd) {
-  let data = ""
+  let data = "";
 
   let notEmpty = 0;
-  if (oldTask.name != taskUpd.name) {
+  if (oldTask.name !== taskUpd.name) {
     data = data + `name = '${taskUpd.name}'`;
     notEmpty += 1;
   }
-  if (oldTask.status != taskUpd.status) {
+  if (oldTask.status !== taskUpd.status) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
     data = data + `status = ${taskUpd.status}`
     notEmpty += 1;
   }
-  if (oldTask.date != taskUpd.date) {
+  if (oldTask.date !== taskUpd.date) {
     if (notEmpty > 0) {
       data = data + `, `;
     }
@@ -76,7 +76,7 @@ function updateTask(oldTask, taskUpd) {
   // console.log(new Date(oldTask.date).toUTCString());
   // console.log(new Date(oldTask.date).toISOString());
 
-  if (oldTask.task_id && data != '') {
+  if (oldTask.task_id && data !== '') {
     return pool.query(`UPDATE tasks SET ${data} WHERE task_id = '${oldTask.task_id}' RETURNING task_id, user, name, status, date`);
   } else {
     return pool.query(`SELECT task_id, name FROM tasks WHERE task_id = '${oldTask.task_id}'`);

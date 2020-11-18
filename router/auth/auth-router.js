@@ -147,7 +147,6 @@ router.put("/update", authMiddleware.tokenCheck, (req, res) => {
               }
             })
             .catch(error => {
-              console.log("pew")
               res.status(500).json({ message: "Cannot update user info", error} );
             });
         } else {
@@ -165,7 +164,7 @@ router.put("/update", authMiddleware.tokenCheck, (req, res) => {
 router.put("/updatepass", authMiddleware.tokenCheck, authMiddleware.passCheck, (req, res) => {
   const {id, oldpass, password} = req.body;
   
-  if (oldpass != password) {
+  if (oldpass !== password) {
     model.fullFindBy("id", id)
     .then(user => {
       if (user.rowCount > 0 && bcrypt.compareSync(oldpass, user.rows[0].password)) {
