@@ -4,29 +4,23 @@
 <h2 align="center">Back End for Task-meteor app</h2>
 
 <p align="center">
-
-    
-    <a href="#license" alt="Backers on Open Collective">
+<a href="#license" alt="Backers on Open Collective">
         <img src="https://img.shields.io/github/license/task-meteor/taskmeteor-backend" /></a>
-    <a href="#codequality" alt="Sponsors on Open Collective">
+<a href="#codequality" alt="Sponsors on Open Collective">
         <img src="https://img.shields.io/codacy/grade/36508d4ffc83437d83a891d99ff52cb0" /></a>
-    <a href="#issues" alt="issues">
+<a href="#issues" alt="issues">
         <img src="https://img.shields.io/github/issues/task-meteor/taskmeteor-backend" /></a>
-    <a href="#node" alt="Node version">
+<a href="#node" alt="Node version">
      <img src="https://img.shields.io/node/v/bcrypt" /></a>
 <a href="#start" alt="Node versionStart">
      <img src="https://img.shields.io/github/stars/task-meteor/taskmeteor-backend" /></a>
-  
 </p>
-
-
 
 Task Meteor is a simple app that combines a timer and a task manager. It helps reduce distractions, limit interruptions, and complete tasks more efficiently.
 
-
 The main BE address is http://195.123.240.167/
 
-### DB schema is here
+### DB simple schema is here
 
 https://dbdesigner.page.link/QNAqi5SAeZx3oTtWA
 
