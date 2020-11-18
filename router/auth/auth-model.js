@@ -30,7 +30,7 @@ function findBy(parameter, filter) {
 }
 
 function userThingsCounter(id) {
-  console.log(`SELECT COUNT (*) FROM periods WHERE "user" = '${id}' UNION SELECT COUNT (*) FROM tasks WHERE "user" = '${id}'`)
+  // console.log(`SELECT COUNT (*) FROM periods WHERE "user" = '${id}' UNION SELECT COUNT (*) FROM tasks WHERE "user" = '${id}'`)
   return pool.query(`SELECT COUNT (*) FROM periods WHERE "user" = '${id}' UNION SELECT COUNT (*) FROM tasks WHERE "user" = '${id}'`)
 }
 

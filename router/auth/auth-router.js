@@ -77,13 +77,17 @@ router.get('/info', authMiddleware.tokenCheck, (req, res) => {
 
       model.userThingsCounter(id)
         .then(info => {
-          res.status(200).json({userData: userData, periods: info.rows[0].count, tasks: info.rows[1].count});
+          console.log(userData, info)
+          if (info.rowCount === 1) {
+            res.status(200).json({userData: userData, periodsTasks: 0});
+          } else {
+            res.status(200).json({userData: userData, periods: info.rows[0].count, tasks: info.rows[1].count});
+          }
         })
         .catch(error => {
           res.status(500).json({ message: 'Cannot get user info', error} );
         });
 
-      // res.status(200).json(info.rows[0]);
     })
     .catch(error => {
       res.status(500).json({ message: 'Cannot get user info', error} );
