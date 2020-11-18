@@ -77,7 +77,7 @@ router.get('/info', authMiddleware.tokenCheck, (req, res) => {
 
       model.userThingsCounter(id)
         .then(info => {
-          console.log(userData, info)
+          // console.log(userData, info)
           if (info.rowCount === 1) {
             res.status(200).json({userData: userData, periodsTasks: 0});
           } else {
@@ -95,35 +95,32 @@ router.get('/info', authMiddleware.tokenCheck, (req, res) => {
 });
 
 router.delete('/remove', authMiddleware.tokenCheck, authMiddleware.removeCheck, (req, res) => {
-  let { email, id } = req.body;
+  let { id } = req.body;
 
-  if (id != undefined) {
-    model.deleteById(id)
+  model.deleteTasksByUserId(id)
+  .then(deleted => {
+
+    model.deletePeriodsByUserId(id)
     .then(deleted => {
-      res.status(200).json({ 
-        message: 'User was deleted!',
-        deletedUser: deleted.rows 
-      });
-    })
-    .catch(error => {
-      res.status(500).json({ message: 'Cannot remove the user', error} );
-    });
-  } else {
-    if (email != undefined) {
-    model.deleteByEmail(email)
+
+      model.deleteById(id)
       .then(deleted => {
         res.status(200).json({ 
           message: 'User was deleted!',
           deletedUser: deleted.rows 
         });
+      })
+      .catch(error => {
+        res.status(500).json({ message: 'Cannot remove the user {users}', error} );
+      });
     })
     .catch(error => {
-      res.status(500).json({ message: 'Cannot remove the user', error} );
+      res.status(500).json({ message: 'Cannot remove the user {periods}', error} );
     });
-  } else {
-      res.status(500).json({ message: 'Cannot remove the user', error} );
-    }
-  }
+  })
+  .catch(error => {
+    res.status(500).json({ message: 'Cannot remove the user {tasks}', error} );
+  });
 });
 
 router.put('/update', authMiddleware.tokenCheck, (req, res) => {

@@ -9,7 +9,9 @@ module.exports = {
   updatePass,
   deleteById,
   deleteByEmail,
-  userThingsCounter
+  deleteTasksByUserId,
+  deletePeriodsByUserId,
+  userThingsCounter,
 };
 
 
@@ -43,6 +45,17 @@ function deleteById(id) {
     return pool.query(`DELETE FROM users WHERE id = '${id}' RETURNING id, name, email`);
   }
 }
+function deleteTasksByUserId(userId) {
+  if (userId) {
+    return pool.query(`DELETE FROM tasks WHERE "user" = '${userId}'`);
+  }
+}
+function deletePeriodsByUserId(userId) {
+  if (userId) {
+    return pool.query(`DELETE FROM periods WHERE "user" = '${userId}'`);
+  }
+}
+
 
 function updateUser(user, updates) {
   let data = ''
