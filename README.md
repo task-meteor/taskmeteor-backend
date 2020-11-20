@@ -34,7 +34,6 @@ https://documenter.getpostman.com/view/8792055/TVYQ1ZJ8
 <br>
 Feel free to use parameter for data limitation or slicing when it's possible.
 
-
 ---
 <p align="center">
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=i4GgZFR1B8k
