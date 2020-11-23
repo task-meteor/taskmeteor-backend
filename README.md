@@ -24,7 +24,6 @@ The main BE address is http://195.123.240.167/
 
 https://dbdesigner.page.link/QNAqi5SAeZx3oTtWA
 
-
 ### Postman docs are here
 
 https://documenter.getpostman.com/view/8792055/TVYQ1ZJ8
